@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 	"github.com/s0undy/karriarum-ctf/database"
@@ -53,8 +54,8 @@ func main() {
 	}
 
 	app := fiber.New()
-
 	app.Use(logger.New())
+	app.Use(cors.New())
 
 	setupRoutes(app)
 
