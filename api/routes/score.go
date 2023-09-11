@@ -19,14 +19,14 @@ type response struct {
 }
 
 func AddScore(c *fiber.Ctx) error {
-	//Checking new request
+	//Check the new request, if unable to parse JSON error out
 	body := new(request)
 	if err := c.BodyParser(&body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Cannot parse JSON",
 		})
 	}
-
+	//Connect to DB
 	config := &database.Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -35,12 +35,11 @@ func AddScore(c *fiber.Ctx) error {
 		SSLMode:  os.Getenv("DB_SSLMODE"),
 		DBName:   os.Getenv("DB_NAME"),
 	}
-	log.Println("Connecting to DB")
 	db, err := database.ConnectDatabase(config)
 	if err != nil {
 		log.Fatal("could not load the database")
 	}
-
+	//Insert the new record into the database and respond with a 200 OK
 	newRecord := models.Leaderboard{
 		Name:  body.Name,
 		Flags: body.Flags,
@@ -52,6 +51,5 @@ func AddScore(c *fiber.Ctx) error {
 	resp := response{
 		Status: "OK",
 	}
-
 	return c.Status(fiber.StatusOK).JSON(resp)
 }
