@@ -14,7 +14,7 @@ import (
 
 func setupRoutes(app *fiber.App) {
 	app.Post("/api/v1/score", routes.AddScore)
-	//app.Post("/api/v1/list", routes)
+	app.Get("/api/v1/list", routes.ListScore)
 }
 
 func main() {
