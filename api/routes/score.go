@@ -10,8 +10,10 @@ import (
 )
 
 type request struct {
-	Name  string `json:"name"`
-	Flags uint64 `json:"flags"`
+	Name         string `json:"name"`
+	Flags        uint64 `json:"flags"`
+	Email        string `json:"email"`
+	MobileNumber string `json:"mobilenumber"`
 }
 
 type response struct {
@@ -41,8 +43,10 @@ func AddScore(c *fiber.Ctx) error {
 	}
 	//Insert the new record into the database and respond with a 200 OK
 	newRecord := models.Leaderboard{
-		Name:  body.Name,
-		Flags: body.Flags,
+		Name:         body.Name,
+		Flags:        body.Flags,
+		Email:        body.Email,
+		MobileNumber: body.MobileNumber,
 	}
 	db.Create(&newRecord)
 	if db.Error != nil {
