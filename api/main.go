@@ -7,7 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/joho/godotenv"
 	"github.com/s0undy/karriarum-ctf/database"
 	"github.com/s0undy/karriarum-ctf/models"
 	"github.com/s0undy/karriarum-ctf/routes"
@@ -24,12 +23,12 @@ func setupRoutes(app *fiber.App, db *gorm.DB) {
 }
 
 func main() {
-	//Load config
-	log.Println("Loading .env")
-	err := godotenv.Load("../.env")
-	if err != nil {
-		log.Fatal(err)
-	}
+	//Check that all environment variables are set
+	//log.Println("Loading .env")
+	//err := godotenv.Load("../.env")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 	config := &database.Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -37,6 +36,25 @@ func main() {
 		User:     os.Getenv("DB_USER"),
 		SSLMode:  os.Getenv("DB_SSLMODE"),
 		DBName:   os.Getenv("DB_NAME"),
+	}
+
+	if config.Host == "" {
+		log.Fatal("DB_HOST environment variable is not set")
+	}
+	if config.Port == "" {
+		log.Fatal("DB_PORT environment variable is not set")
+	}
+	if config.Password == "" {
+		log.Fatal("DB_PASSWORD environment variable is not set")
+	}
+	if config.User == "" {
+		log.Fatal("DB_USER environment variable is not set")
+	}
+	if config.SSLMode == "" {
+		log.Fatal("DB_SSLMode environment variable is not set")
+	}
+	if config.DBName == "" {
+		log.Fatal("DB_DBName environment variable is not set")
 	}
 	//Connect to DB
 	log.Println("Connecting to DB")
@@ -64,5 +82,10 @@ func main() {
 
 	setupRoutes(app, db)
 
-	log.Fatal(app.Listen(os.Getenv("APP_PORT")))
+	app_port := os.Getenv("APP_PORT")
+	if app_port == "" {
+		log.Fatal("APP_PORT environment variable is not set")
+	}
+	log.Fatal((app.Listen(app_port)))
+	//log.Fatal(app.Listen(os.Getenv("APP_PORT")))
 }
