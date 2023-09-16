@@ -2,28 +2,13 @@ package routes
 
 import (
 	"encoding/json"
-	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/s0undy/karriarum-ctf/database"
 	"github.com/s0undy/karriarum-ctf/models"
+	"gorm.io/gorm"
 )
 
-func ListScore(c *fiber.Ctx) error {
-	//Connect to DB
-	config := &database.Config{
-		Host:     os.Getenv("DB_HOST"),
-		Port:     os.Getenv("DB_PORT"),
-		Password: os.Getenv("DB_PASSWORD"),
-		User:     os.Getenv("DB_USER"),
-		SSLMode:  os.Getenv("DB_SSLMODE"),
-		DBName:   os.Getenv("DB_NAME"),
-	}
-	db, err := database.ConnectDatabase(config)
-	if err != nil {
-		log.Fatal("could not load the database")
-	}
+func ListScore(c *fiber.Ctx, db *gorm.DB) error {
 	//Grab all the data from the database and order by flags desc
 	var result []models.Leaderboard
 	db.Order("Flags desc").Find(&result)

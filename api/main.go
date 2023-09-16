@@ -11,11 +11,16 @@ import (
 	"github.com/s0undy/karriarum-ctf/database"
 	"github.com/s0undy/karriarum-ctf/models"
 	"github.com/s0undy/karriarum-ctf/routes"
+	"gorm.io/gorm"
 )
 
-func setupRoutes(app *fiber.App) {
-	app.Post("/api/v1/score", routes.AddScore)
-	app.Get("/api/v1/list", routes.ListScore)
+func setupRoutes(app *fiber.App, db *gorm.DB) {
+	app.Post("/api/v1/score", func(c *fiber.Ctx) error {
+		return routes.AddScore(c, db)
+	})
+	app.Get("/api/v1/list", func(c *fiber.Ctx) error {
+		return routes.ListScore(c, db)
+	})
 }
 
 func main() {
@@ -57,7 +62,7 @@ func main() {
 	app.Use(logger.New())
 	app.Use(cors.New())
 
-	setupRoutes(app)
+	setupRoutes(app, db)
 
 	log.Fatal(app.Listen(os.Getenv("APP_PORT")))
 }
