@@ -1,0 +1,15 @@
+name: Docker Image CI for GHCR
+
+on:
+  push
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and push the Image
+      - uses: actions/checkout@v3
+        run: |
+          docker login --username s0undy --password ${{ secrets.GH_PAT}} ghcr.io
+          docker build . --tag ghcr.io/s0undy/karriarum-ctf-backend:latest
+          docker push ghcr.io/s0undy/karriarum-ctf-backend:latest
