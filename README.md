@@ -25,7 +25,7 @@ Accepts a http POST with a body in JSON format:
 }
 ```
 
-*/api/v1/list
+* /api/v1/list
 
 Accepts a http GET and returns a list of all records in the database.
 
@@ -38,7 +38,7 @@ See examples in examples/compose
 ## Configuration
 
 | Environment Variable         | Description                                | Default   | Required  |
-|:----------------------------:|--------------------------------|----------------------------------|
+| ---------------------------- |--------------------------------------------|-----------------------|
 | `DB_HOST`                    | Hostname/IP of the Postgres database host  |           | ✅       |
 | `DB_USER`                    | Postgres DB User                           |           | ✅       |
 | `DB_PASSWORD`                | Postgres DB Password                       |           | ✅       |
