@@ -70,7 +70,7 @@ func main() {
 		if err != nil {
 			log.Fatal("Error initializing the DB")
 		} else {
-			log.Println("Succesfully initialized the DB")
+			log.Println("Successfully initialized the DB")
 		}
 	} else {
 		log.Println("Table already exsist, no need to initialized the DB.")
