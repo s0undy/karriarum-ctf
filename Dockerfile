@@ -15,6 +15,8 @@ COPY --from=golang /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=golang /etc/passwd /etc/passwd
 COPY --from=golang /etc/group /etc/group
 
+WORKDIR /api
+
 COPY --from=golang /api/api .
 
 CMD [ "./api" ]
