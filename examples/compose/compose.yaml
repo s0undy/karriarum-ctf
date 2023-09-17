@@ -1,0 +1,37 @@
+---
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+  init-db:
+    image: ghcr.io/onedr0p/postgres-init:14.8
+    container_name: init-db
+    environment:
+      INIT_POSTGRES_DBNAME: karriarum
+      INIT_POSTGRES_HOST: postgres
+      INIT_POSTGRES_USER: karriarum-postgres
+      INIT_POSTGRES_PASS: karriarum-postgres
+      INIT_POSTGRES_SUPER_PASS: postgres
+    depends_on:
+      postgres:
+        condition: service_started
+  karriarum-api:
+    image: ghcr.io/s0undy/karriarum-ctf-backend:latest
+    container_name: karriarum-ctf-backend
+    environment:
+      DB_HOST: postgres                     
+      DB_USER: karriarum-postgres
+      DB_PASSWORD: karriarum-postgres
+      DB_NAME: karriarum
+      DB_PORT: 5432
+      DB_SSLMODE: disable
+      APP_PORT: :4000
+    ports:
+      - 4000:4000
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
