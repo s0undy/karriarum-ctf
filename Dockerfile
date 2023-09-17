@@ -4,7 +4,7 @@ RUN apk add -U tzdata
 RUN apk --update add ca-certificates
 
 WORKDIR /api
-COPY ./api .
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api .
 
@@ -18,3 +18,6 @@ COPY --from=golang /etc/group /etc/group
 COPY --from=golang /api .
 
 CMD [ "./api" ]
+LABEL \
+    org.opencontainers.image.title="karriarum-ctf-backend" \
+    org.opencontainers.image.source="https://github.com/onedr0p/exportarr"
