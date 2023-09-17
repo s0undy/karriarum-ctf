@@ -48,7 +48,7 @@ Accepts a http GET and returns a list of all records in the database.
 
 Important to remember that this is ONLY the backend porportion of "Karriarium CTF". It renders no frontend and only exposes the API. It should always be used together with [Karriarum-CTF-Frontend](https://github.com/s0undy/karriarum-ctf-frontend)
 
-## Docker Compose
+### Docker Compose
 
 See examples in [examples/compose](https://github.com/s0undy/karriarum-ctf-backend/tree/main/examples/compose)
 
